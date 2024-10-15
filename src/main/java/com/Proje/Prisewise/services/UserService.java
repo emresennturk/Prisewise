@@ -2,17 +2,27 @@ package com.Proje.Prisewise.services;
 
 import com.Proje.Prisewise.entities.User;
 import com.Proje.Prisewise.repos.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User saveUser(User user) {
-        return (User) userRepository.save(user);
+        // Şifrenin null veya boş olmadığı kontrolü
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            // Şifre hashleme
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);  // Hashlenmiş şifreyi ayarlayın
+        }
+
+        return userRepository.save(user);
     }
 }
