@@ -5,6 +5,8 @@ import com.Proje.Prisewise.repos.ProductRepository;
 import com.Proje.Prisewise.repos.SellerProductRepository;
 import com.Proje.Prisewise.repos.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,10 @@ public class ProductService {
 
     public List<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByUrunAdiContainingIgnoreCase(keyword);
+    }
+
+    public List<Product> getRandomProducts(int count) {
+        return productRepository.findRandomProducts(count);
     }
 
 
