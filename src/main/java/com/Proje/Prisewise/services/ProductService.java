@@ -1,6 +1,9 @@
 package com.Proje.Prisewise.services;
 
+import com.Proje.Prisewise.dtos.ProductDTO;
+import com.Proje.Prisewise.dtos.SellerDTO;
 import com.Proje.Prisewise.entities.Product;
+import com.Proje.Prisewise.entities.SellerProduct;
 import com.Proje.Prisewise.repos.ProductRepository;
 import com.Proje.Prisewise.repos.SellerProductRepository;
 import com.Proje.Prisewise.repos.SellerRepository;
@@ -10,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -22,12 +26,42 @@ public class ProductService {
     @Autowired
     private SellerProductRepository sellerProductRepository;
 
-    public List<Product> getProductsByKeyword(String keyword) {
-        return productRepository.findByUrunAdiContainingIgnoreCase(keyword);
+    public List<ProductDTO> getProductsByKeyword(String keyword) {
+        List<Product> products = productRepository.findByUrunAdiContainingIgnoreCase(keyword);
+        return products.stream()
+                .map(this::convertToProductDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getRandomProducts(int count) {
-        return productRepository.findRandomProducts(count);
+    public List<ProductDTO> getRandomProducts(int count) {
+        List<Product> products = productRepository.findRandomProducts(count);
+        return products.stream()
+                .map(this::convertToProductDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ProductDTO convertToProductDTO(Product product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setId(product.getId());
+        dto.setUrunAdi(product.getUrunAdi());
+        dto.setFiyat(product.getFiyat());
+        dto.setUrl(product.getUrl());
+        dto.setResim_url(product.getResim_url());
+        dto.setUniqueKey(product.getUniqueKey());
+
+        // Get sellers for the product
+        List<SellerDTO> sellerDTOs = sellerProductRepository.findByProduct(product)
+                .stream()
+                .map(sp -> {
+                    SellerDTO sellerDTO = new SellerDTO();
+                    sellerDTO.setId(sp.getSeller().getId());
+                    sellerDTO.setSaticiAdi(sp.getSeller().getSaticiAdi());
+                    return sellerDTO;
+                })
+                .collect(Collectors.toList());
+
+        dto.setSellers(sellerDTOs);
+        return dto;
     }
 
 

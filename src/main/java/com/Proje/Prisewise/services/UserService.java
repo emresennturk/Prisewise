@@ -16,11 +16,11 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-        // Şifrenin null veya boş olmadığı kontrolü
+
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            // Şifre hashleme
+
             String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);  // Hashlenmiş şifreyi ayarlayın
+            user.setPassword(encodedPassword);
         }
 
         return userRepository.save(user);

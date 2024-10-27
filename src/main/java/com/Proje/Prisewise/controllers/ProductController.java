@@ -1,5 +1,6 @@
 package com.Proje.Prisewise.controllers;
 
+import com.Proje.Prisewise.dtos.ProductDTO;
 import com.Proje.Prisewise.entities.Product;
 import com.Proje.Prisewise.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ProductController {
         }
 
         // Önce veritabanını kontrol et
-        List<Product> products = productService.getProductsByKeyword(keyword);
+        List<ProductDTO> products = productService.getProductsByKeyword(keyword);
         if (!products.isEmpty()) {
             return ResponseEntity.ok(products);
         }
@@ -47,8 +48,8 @@ public class ProductController {
     }
 
     @GetMapping("/homepage")
-    public ResponseEntity<List<Product>> getRandomProducts() {
-        List<Product> randomProducts = productService.getRandomProducts(10);
+    public ResponseEntity<List<ProductDTO>> getRandomProducts() {
+        List<ProductDTO> randomProducts = productService.getRandomProducts(10);
         return ResponseEntity.ok(randomProducts);
     }
 }
