@@ -19,7 +19,7 @@ public class SecurityConfig {
         // CSRF korumasını devre dışı bırakıyoruz (gerekirse sadece test için)
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/users/**","/api/products/**").permitAll()
+                        .requestMatchers("/api/users/**","/api/products/**","/api/categories/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

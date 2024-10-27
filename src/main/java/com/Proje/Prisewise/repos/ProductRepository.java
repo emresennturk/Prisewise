@@ -1,5 +1,6 @@
 package com.Proje.Prisewise.repos;
 
+import com.Proje.Prisewise.entities.Category;
 import com.Proje.Prisewise.entities.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT * FROM urunler ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Product> findRandomProducts(@Param("limit") int limit);
+
+
 }
