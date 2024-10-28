@@ -47,9 +47,9 @@ public class ProductService {
         dto.setFiyat(product.getFiyat());
         dto.setUrl(product.getUrl());
         dto.setResim_url(product.getResim_url());
-        dto.setUniqueKey(product.getUniqueKey());
+        
 
-        // Get sellers for the product
+        // Ürün için satıcı çekme
         List<SellerDTO> sellerDTOs = sellerProductRepository.findByProduct(product)
                 .stream()
                 .map(sp -> {

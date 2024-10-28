@@ -10,6 +10,5 @@ public class ProductDTO {
     private Float fiyat;
     private String url;
     private String resim_url;
-    private String uniqueKey;
     private List<SellerDTO> sellers;
 }
