@@ -1,8 +1,8 @@
 package com.Proje.Prisewise.dtos;
 
 import lombok.Data;
-
 import java.util.List;
+
 @Data
 public class ProductDTO {
     private Long id;

@@ -3,13 +3,10 @@ package com.Proje.Prisewise.services;
 import com.Proje.Prisewise.dtos.ProductDTO;
 import com.Proje.Prisewise.dtos.SellerDTO;
 import com.Proje.Prisewise.entities.Product;
-import com.Proje.Prisewise.entities.SellerProduct;
 import com.Proje.Prisewise.repos.ProductRepository;
 import com.Proje.Prisewise.repos.SellerProductRepository;
 import com.Proje.Prisewise.repos.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +46,7 @@ public class ProductService {
         dto.setResim_url(product.getResim_url());
         
 
-        // Ürün için satıcı çekme
+        // Ürün için
         List<SellerDTO> sellerDTOs = sellerProductRepository.findByProduct(product)
                 .stream()
                 .map(sp -> {
