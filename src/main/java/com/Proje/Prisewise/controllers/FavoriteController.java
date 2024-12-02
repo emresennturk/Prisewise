@@ -64,7 +64,7 @@ public class FavoriteController {
         return ResponseEntity.ok("Ürün favorilerden çıkarıldı.");
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ResponseEntity<List<Product>> getFavorites(@RequestBody FavoriteRequest favoriteRequest) {
         if (!userRepository.existsById(favoriteRequest.getUserId())) {
             return ResponseEntity.badRequest().body(null);
