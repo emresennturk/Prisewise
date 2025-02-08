@@ -2,6 +2,7 @@ package com.Proje.Prisewise.controllers;
 
 import com.Proje.Prisewise.entities.User;
 import com.Proje.Prisewise.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,18 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (userService.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email zaten bulunuyor.");
+        }
         return ResponseEntity.ok(userService.saveUser(user));
+    }
+
+    @PostMapping("/google-login")
+    public ResponseEntity<?> googleLogin(@RequestBody User user) {
+        if (userService.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email zaten bulunuyor.");
+        }
+        return ResponseEntity.ok(userService.saveGoogleUser(user));
     }
 }

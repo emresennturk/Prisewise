@@ -57,11 +57,11 @@ public class FavoriteController {
     @Transactional
     public ResponseEntity<String> removeFavorite(@RequestBody FavoriteRequest favoriteRequest) {
         if (!favoriteRepository.existsByUserIdAndProductId(favoriteRequest.getUserId(), favoriteRequest.getUrunId())) {
-            return ResponseEntity.badRequest().body("Bu ürün favorilerde bulunmamaktadır.");
+            return ResponseEntity.badRequest().body("Bu urun favorilerde bulunmamaktadir.");
         }
         favoriteRepository.deleteByUserIdAndProductId(favoriteRequest.getUserId(), favoriteRequest.getUrunId());
 
-        return ResponseEntity.ok("Ürün favorilerden çıkarıldı.");
+        return ResponseEntity.ok("Urun favorilerden cikarildi.");
     }
 
     @PostMapping("/list")
@@ -77,4 +77,5 @@ public class FavoriteController {
 
         return ResponseEntity.ok(products);
     }
+
 }
