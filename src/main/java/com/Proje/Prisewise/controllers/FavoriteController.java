@@ -38,7 +38,7 @@ public class FavoriteController {
             return ResponseEntity.badRequest().body("Ürün bulunamadı.");
         }
         if (favoriteRepository.existsByUserIdAndProductId(favoriteRequest.getUserId(), favoriteRequest.getUrunId())) {
-            return ResponseEntity.badRequest().body("Bu ürün zaten favorilerde bulunuyor.");
+            return ResponseEntity.badRequest().body("{\"message\":\"Bu urun zaten favorilerde bulunmaktadir.\"}");
         }
 
         User user = userRepository.findById(favoriteRequest.getUserId()).orElseThrow();
@@ -50,18 +50,18 @@ public class FavoriteController {
 
         favoriteRepository.save(favorite);
 
-        return ResponseEntity.ok("Ürün favorilere eklendi");
+        return ResponseEntity.ok("{\"message\":\"Ürün favorilere eklendi.\"}");
     }
 
     @DeleteMapping("/remove")
     @Transactional
     public ResponseEntity<String> removeFavorite(@RequestBody FavoriteRequest favoriteRequest) {
         if (!favoriteRepository.existsByUserIdAndProductId(favoriteRequest.getUserId(), favoriteRequest.getUrunId())) {
-            return ResponseEntity.badRequest().body("Bu urun favorilerde bulunmamaktadir.");
+            return ResponseEntity.badRequest().body("{\"error\":\"Bu urun favorilerde bulunmamaktadir.\"}");
         }
         favoriteRepository.deleteByUserIdAndProductId(favoriteRequest.getUserId(), favoriteRequest.getUrunId());
 
-        return ResponseEntity.ok("Urun favorilerden cikarildi.");
+        return ResponseEntity.ok("{\"message\":\"Urun favorilerden cikarildi.\"}");
     }
 
     @PostMapping("/list")
